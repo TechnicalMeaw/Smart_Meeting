@@ -1,0 +1,1019 @@
+﻿<process name="smart_meeting" version="1.0" bpversion="6.10.1.35171" narrative="" byrefcollection="true" preferredid="fea736f7-fa90-4330-884d-27f225b4935c">
+  <view>
+    <camerax>-6</camerax>
+    <cameray>-114</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <subsheet subsheetid="4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a" type="Normal" published="False">
+    <name>Calculate Attendence</name>
+    <view>
+      <camerax>65</camerax>
+      <cameray>510</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="752468ad-68ba-48bf-a68d-984ccf117ca8" type="Normal" published="False">
+    <name>Write to Excell sheet</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>315</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="519d466d-d580-461a-bfbd-5356af46de39" type="Normal" published="False">
+    <name>Check Duplicates</name>
+    <view>
+      <camerax>-3</camerax>
+      <cameray>420</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="35863f2a-0bc3-4179-9369-9cafd6866f32" type="Normal" published="False">
+    <name>Get data from Excel</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>42</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="45cf08cf-af61-410a-8147-7834e070a2d5" name="Start" type="Start">
+    <display x="15" y="-135" />
+    <onsuccess>c6f4bf1b-bb49-43f1-b4f5-4020fa391ed7</onsuccess>
+  </stage>
+  <stage stageid="09c3b046-362f-468e-ab2d-8c073ac39861" name="End" type="End">
+    <display x="15" y="510" />
+  </stage>
+  <stage stageid="41047930-3d8e-4134-85ba-1df5a63acde2" name="Stage1" type="ProcessInfo">
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="4394dcda-b530-44a7-8052-f381cb2a2643" name="Get data from Excel" type="SubSheetInfo">
+    <subsheetid>35863f2a-0bc3-4179-9369-9cafd6866f32</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="c8e73a20-8bd4-491a-ab71-1eed2b567093" name="Start" type="Start">
+    <subsheetid>35863f2a-0bc3-4179-9369-9cafd6866f32</subsheetid>
+    <display x="15" y="-120" />
+    <onsuccess>a8e5e63e-33d0-471c-99bd-a24f2a662f36</onsuccess>
+  </stage>
+  <stage stageid="27c19bee-94e6-4ea2-956e-57534916e5cd" name="End" type="End">
+    <subsheetid>35863f2a-0bc3-4179-9369-9cafd6866f32</subsheetid>
+    <display x="15" y="150" />
+    <outputs>
+      <output type="collection" name="Sudent Info" stage="Data" />
+    </outputs>
+  </stage>
+  <stage stageid="a8e5e63e-33d0-471c-99bd-a24f2a662f36" name="MS Excel VBO::Create Instance" type="Action">
+    <subsheetid>35863f2a-0bc3-4179-9369-9cafd6866f32</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-75" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="handle" />
+    </outputs>
+    <onsuccess>958aa3c6-431a-4f87-a2cf-099ef8016f75</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="958aa3c6-431a-4f87-a2cf-099ef8016f75" name="MS Excel VBO::Open Workbook" type="Action">
+    <subsheetid>35863f2a-0bc3-4179-9369-9cafd6866f32</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-30" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="&quot;C:\Users\Santanu Mukherjee\OneDrive\Documents\demo.xlsx&quot;" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="Workbook Name" />
+    </outputs>
+    <onsuccess>1478d49f-4a3c-4a0a-8d67-e84ab63374f3</onsuccess>
+    <resource object="MS Excel VBO" action="Open Workbook" />
+  </stage>
+  <stage stageid="1478d49f-4a3c-4a0a-8d67-e84ab63374f3" name="MS Excel VBO::Get Worksheet As Collection" type="Action">
+    <subsheetid>35863f2a-0bc3-4179-9369-9cafd6866f32</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="15" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the worksheet which should be retrieved resides. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which contains the sheet required. The default empty text indicates the currently active workbook on the specified instance." expr="[Workbook Name]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet within the specified workbook which should be written to a collection. The default empty text indicates the currently active worksheet within the specified workbook." expr="&quot;Sheet1&quot;" />
+      <input type="text" name="Fetch Data With Method" friendlyname="Fetch Data With Method" narrative="The method used to fetch data from cells in the worksheet. Options include Text, Value, and Value2. The default indicates Value will be used." expr="" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Data" friendlyname="Data" narrative="The collection containing the data from the specified worksheet - the column IDs will be gleaned from the first row on the sheet being retrieved." stage="Data" />
+    </outputs>
+    <onsuccess>026ec8e0-8e4d-4136-a784-331cdf3bbac8</onsuccess>
+    <resource object="MS Excel VBO" action="Get Worksheet As Collection" />
+  </stage>
+  <stage stageid="026ec8e0-8e4d-4136-a784-331cdf3bbac8" name="MS Excel VBO::Close Workbook" type="Action">
+    <subsheetid>35863f2a-0bc3-4179-9369-9cafd6866f32</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="60" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the workbook which should be closed resides. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which should be closed." expr="[Workbook Name]" />
+      <input type="flag" name="Save Data" friendlyname="Save Data" narrative="True to save the data before closing the workbook; The default of False will discard any changes before closing the workbook." expr="&quot;True&quot;" />
+    </inputs>
+    <onsuccess>e84f92e5-6aa4-40a6-a493-42819502bd83</onsuccess>
+    <resource object="MS Excel VBO" action="Close Workbook" />
+  </stage>
+  <stage stageid="e84f92e5-6aa4-40a6-a493-42819502bd83" name="MS Excel VBO::Create Instance" type="Action">
+    <subsheetid>35863f2a-0bc3-4179-9369-9cafd6866f32</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="105" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="handle" />
+    </outputs>
+    <onsuccess>27c19bee-94e6-4ea2-956e-57534916e5cd</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="2eee1880-b07b-4328-b119-631a425e22ed" name="handle" type="Data">
+    <subsheetid>35863f2a-0bc3-4179-9369-9cafd6866f32</subsheetid>
+    <display x="255" y="-30" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="8390fff1-7404-4a4c-9438-82e25cd64ea1" name="Workbook Name" type="Data">
+    <subsheetid>35863f2a-0bc3-4179-9369-9cafd6866f32</subsheetid>
+    <display x="255" y="15" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="6eb05470-f382-403f-a831-853fc0ff0789" name="Data" type="Collection">
+    <subsheetid>35863f2a-0bc3-4179-9369-9cafd6866f32</subsheetid>
+    <display x="255" y="60" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c6f4bf1b-bb49-43f1-b4f5-4020fa391ed7" name="Get data from Excel" type="SubSheet">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-60" />
+    <outputs>
+      <output type="collection" name="Sudent Info" friendlyname="Sudent Info" stage="Student Info" />
+    </outputs>
+    <onsuccess>1ae598bb-dd68-4e8e-991c-3a1534b10102</onsuccess>
+    <processid>35863f2a-0bc3-4179-9369-9cafd6866f32</processid>
+  </stage>
+  <stage stageid="e1d5141a-1728-40f0-b6b0-f47e61b2ccdc" name="Student Info" type="Collection">
+    <display x="120" y="-60" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="1ae598bb-dd68-4e8e-991c-3a1534b10102" name="Launch Meeting" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="0" />
+    <onsuccess>4dda0c64-cfb0-4f3a-bb28-227eb40fce49</onsuccess>
+    <resource object="smart_meeting_object" action="Launch New Meeting" />
+  </stage>
+  <stage stageid="4dda0c64-cfb0-4f3a-bb28-227eb40fce49" name="smart_meeting_object::Send Joining Link" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="45" />
+    <inputs>
+      <input type="collection" name="Student Emails" friendlyname="Student Emails" expr="[Student Info]" />
+    </inputs>
+    <onsuccess>fd5f9d39-c9d9-4759-acd3-89b70d957697</onsuccess>
+    <resource object="smart_meeting_object" action="Send Joining Link" />
+  </stage>
+  <stage stageid="f2a1973f-1099-4780-897d-9e33ee662cd3" name="Check Activity" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="180" />
+    <outputs>
+      <output type="collection" name="Student Activity" friendlyname="Student Activity" stage="Student Activity" />
+    </outputs>
+    <onsuccess>1e64f268-54bb-4a8a-a250-548e68795c7b</onsuccess>
+    <resource object="smart_meeting_object" action="Check Join And Leave Activity" />
+  </stage>
+  <stage stageid="f0d285a9-c189-43db-85bc-1fa936de52d8" name="Student Activity" type="Collection">
+    <display x="105" y="180" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="e0114bfe-3155-4e10-ad8f-aa1d00ade6be" name="Check Duplicates" type="SubSheetInfo">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="4341d8b9-ddb5-4b8f-b9cb-77c250b71903" name="Start" type="Start">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <display x="15" y="-135" />
+    <inputs>
+      <input type="collection" name="Activity Raw Data" stage="Activity Raw Data" />
+    </inputs>
+    <onsuccess>4ff21786-3dd9-4f25-af3e-d447fcf1b4f4</onsuccess>
+  </stage>
+  <stage stageid="1a460c64-c8ee-4cd8-81f5-b1e96973dfca" name="End" type="End">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <display x="15" y="420" />
+    <outputs>
+      <output type="collection" name="Activity Log" stage="Activity Log" />
+      <output type="number" name="Number of Activity" stage="Count" />
+    </outputs>
+  </stage>
+  <stage stageid="1295c72c-01d3-4027-9660-612e0f8db5c6" name="Activity Raw Data" type="Collection">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <display x="240" y="-30" w="90" h="60" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="5baf3cd9-8771-46a7-b413-683a626b34cb" name="Is Prev" type="Decision">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <display x="15" y="-30" />
+    <decision expression="[Activity Raw Data.Activity] = [Prev Data] AND [Activity Raw Data.Activity] = &quot;&quot;" />
+    <ontrue>3f25d5f1-c18a-47c6-af3a-22fcc00189a6</ontrue>
+    <onfalse>e231868c-e843-450e-8aec-e43d983e20d7</onfalse>
+  </stage>
+  <stage stageid="4ff21786-3dd9-4f25-af3e-d447fcf1b4f4" name="Loop Start" type="LoopStart">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-75" />
+    <onsuccess>5baf3cd9-8771-46a7-b413-683a626b34cb</onsuccess>
+    <groupid>526cd7ec-c96c-41d6-b6f1-1a35b5091780</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>Activity Raw Data</loopdata>
+  </stage>
+  <stage stageid="d79ddaec-8bc6-45c3-8a93-ec3a0d645abf" name="Loop End" type="LoopEnd">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="255" />
+    <onsuccess>e978ea14-344e-42c7-948d-4f74458ccb08</onsuccess>
+    <groupid>526cd7ec-c96c-41d6-b6f1-1a35b5091780</groupid>
+  </stage>
+  <stage stageid="de915411-0143-4257-ba6c-aa473a74bc93" name="Prev Data" type="Data">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-240" y="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f1b84fd9-a02b-48da-87cf-17cfe2113402" name="Count" type="Data">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-240" y="105" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d5de8380-2e12-4c0a-be52-3e39165b5814" name="Count++" type="Calculation">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="180" />
+    <onsuccess>d79ddaec-8bc6-45c3-8a93-ec3a0d645abf</onsuccess>
+    <calculation expression="[Count]+1" stage="Count" />
+  </stage>
+  <stage stageid="262c6e52-62e1-49e8-94e7-877bba414f86" name="Anchor1" type="Anchor">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="120" y="255" w="10" h="10" />
+    <onsuccess>d79ddaec-8bc6-45c3-8a93-ec3a0d645abf</onsuccess>
+  </stage>
+  <stage stageid="efe84830-8b82-482d-beba-147ed2e2c270" name="Check Duplicates" type="SubSheet">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="255" />
+    <inputs>
+      <input type="collection" name="Activity Raw Data" friendlyname="Activity Raw Data" expr="[Student Activity]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Activity Log" friendlyname="Activity Log" stage="Activity Log" />
+      <output type="number" name="Number of Activity" friendlyname="Number of Activity" stage="Number of Activity" />
+    </outputs>
+    <onsuccess>cf858637-5a6f-42e8-9161-1df362951307</onsuccess>
+    <processid>519d466d-d580-461a-bfbd-5356af46de39</processid>
+  </stage>
+  <stage stageid="3738709f-bcaa-4150-8a9f-bcb8a2fc8c4f" name="Activity Log" type="Collection">
+    <display x="105" y="255" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="27fef92a-bd7d-47e4-a115-202cc0de547d" name="Activity Log" type="Collection">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <display x="-240" y="180" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="Activity" type="text" />
+      <field name="Time" type="text" />
+    </collectioninfo>
+  </stage>
+  <stage stageid="4460daae-784e-4a59-96a7-a0101b7e6a1e" name="Write to Activity Log" type="MultipleCalculation">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="75" w="90" h="30" />
+    <onsuccess>16f7748d-127f-4ba0-8bbb-1190575dfeca</onsuccess>
+    <steps>
+      <calculation expression="[Activity Raw Data.Activity]" stage="Activity Log.Activity" />
+      <calculation expression="[Activity Raw Data.TimeStamp]" stage="Activity Log.Time" />
+    </steps>
+  </stage>
+  <stage stageid="3f25d5f1-c18a-47c6-af3a-22fcc00189a6" name="Anchor2" type="Anchor">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="120" y="-30" w="10" h="10" />
+    <onsuccess>262c6e52-62e1-49e8-94e7-877bba414f86</onsuccess>
+  </stage>
+  <stage stageid="16f7748d-127f-4ba0-8bbb-1190575dfeca" name="Write Current to Prev Data" type="Calculation">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="120" w="90" h="30" />
+    <onsuccess>d5de8380-2e12-4c0a-be52-3e39165b5814</onsuccess>
+    <calculation expression="[Activity Raw Data.Activity]" stage="Prev Data" />
+  </stage>
+  <stage stageid="385430b4-0530-4b6f-a118-3f6e12333eb0" name="Number of Activity" type="Data">
+    <display x="180" y="255" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="ab07e661-972b-4149-ae52-33b6c76087f8" name="Write to Excell sheet" type="SubSheetInfo">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="233751d6-0f5e-4e6b-85ae-b1c3f7cc1705" name="Start" type="Start">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <display x="75" y="-120" />
+    <inputs>
+      <input type="collection" name="Activity List" stage="Activity List" />
+      <input type="text" name="Writte Posiion" stage="Write Position" />
+    </inputs>
+    <onsuccess>73426f17-73e2-449d-8482-8222efe82576</onsuccess>
+  </stage>
+  <stage stageid="3e6ccca6-7b09-4b62-b45f-216aeeef93bb" name="End" type="End">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <display x="15" y="315" />
+  </stage>
+  <stage stageid="73426f17-73e2-449d-8482-8222efe82576" name="MS Excel VBO::Create Instance" type="Action">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="75" y="-60" w="90" h="30" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="handle" />
+    </outputs>
+    <onsuccess>1fe8dc03-7091-4596-a473-35845ded2d11</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="41402b5e-13d7-4f51-b697-4df9f217e26d" name="handle" type="Data">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <display x="195" y="-45" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="10c7c6bc-b7f9-4223-a11a-d3624da0335d" name="Workbook Name" type="Data">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <display x="195" y="15" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="122f25ea-37db-4ed2-908c-055b92a71e5a" name="MS Excel VBO::Create Worksheet" type="Action">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-135" y="105" w="90" h="30" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the worksheet should be created. The default of zero indicates the currently active instance." expr="" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook in which the sheet should be created - The default empty value indicates the currently active workbook on the specified instance." expr="[Workbook Name]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the sheet which should be activated. The default empty text value indicates that the currently active sheet should be, er, activated, making this a no-op." expr="[Current Date]" />
+    </inputs>
+    <onsuccess>bab186a5-4c7a-46ab-b14f-e07eb976da6c</onsuccess>
+    <resource object="MS Excel VBO" action="Create Worksheet" />
+  </stage>
+  <stage stageid="bab186a5-4c7a-46ab-b14f-e07eb976da6c" name="MS Excel VBO::Write Collection" type="Action">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="105" w="90" h="30" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the specified collection should be written. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook within which the data should be written. The default empty value indicates the current workbook within the specified instance." expr="[Workbook Name]" />
+      <input type="collection" name="Collection" friendlyname="Collection" narrative="The collection containing the data which should be written to the worksheet." expr="[Activity List]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet on which the given data should be written. The default empty value indicates the current sheet within the specified workbook." expr="[Current Date]" />
+      <input type="text" name="Cell Reference" friendlyname="Cell Reference" narrative="The reference at which the collection should be written." expr="[Write Position]" />
+      <input type="flag" name="Include Column Names" friendlyname="Include Column Names" narrative="True to indicate that the column names from the collection should be written out as the first row; False to ignore the column names and just write out the data." expr="&quot;True&quot;" />
+    </inputs>
+    <onsuccess>0b577318-a493-4c73-8975-69d71e94fa97</onsuccess>
+    <resource object="MS Excel VBO" action="Write Collection" />
+  </stage>
+  <stage stageid="0b577318-a493-4c73-8975-69d71e94fa97" name="MS Excel VBO::Save Workbook" type="Action">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="150" w="90" h="30" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the workbook which should be saved resides. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which should be saved" expr="[Workbook Name]" />
+    </inputs>
+    <onsuccess>e0c552ea-bc03-4bfe-8b76-90612288e16c</onsuccess>
+    <resource object="MS Excel VBO" action="Save Workbook" />
+  </stage>
+  <stage stageid="20b69e3b-7736-4b2c-a19c-a2f520ac3ddc" name="MS Excel VBO::Close Instance" type="Action">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="255" w="90" h="30" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance to be closed. Zero indicates the currently active instance." expr="[handle]" />
+      <input type="flag" name="Save Changes" friendlyname="Save Changes" narrative="True to save the changes to the open workbooks on the instance, False to discard any changes. Default is False." expr="" />
+    </inputs>
+    <onsuccess>3e6ccca6-7b09-4b62-b45f-216aeeef93bb</onsuccess>
+    <resource object="MS Excel VBO" action="Close Instance" />
+  </stage>
+  <stage stageid="e0c552ea-bc03-4bfe-8b76-90612288e16c" name="MS Excel VBO::Close Workbook" type="Action">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="210" w="90" h="30" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the workbook which should be closed resides. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which should be closed." expr="[Workbook Name]" />
+      <input type="flag" name="Save Data" friendlyname="Save Data" narrative="True to save the data before closing the workbook; The default of False will discard any changes before closing the workbook." expr="" />
+    </inputs>
+    <onsuccess>20b69e3b-7736-4b2c-a19c-a2f520ac3ddc</onsuccess>
+    <resource object="MS Excel VBO" action="Close Workbook" />
+  </stage>
+  <stage stageid="1fe8dc03-7091-4596-a473-35845ded2d11" name="MS Excel VBO::Open Workbook" type="Action">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="75" y="-15" w="90" h="30" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="&quot;C:\Users\Santanu Mukherjee\OneDrive\Documents\demo.xlsx&quot;" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="Workbook Name" />
+    </outputs>
+    <onsuccess>b5394053-207c-4568-870a-afc8b74b8035</onsuccess>
+    <resource object="MS Excel VBO" action="Open Workbook" />
+  </stage>
+  <stage stageid="5d071614-c1ab-4dae-a629-766add55b843" name="MS Excel VBO::Worksheet Exists" type="Action">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-135" y="-15" w="90" h="30" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the number of rows is required. The default of zero indicates the currently active instance." expr="[handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook on which the number of rows is required. The default empty text value indicates the currently active workbook on the specified instance." expr="[Workbook Name]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet of interest; it will be checked for existence" expr="[Current Date]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Worksheet Exists" friendlyname="Worksheet Exists" narrative="Indicates whether or not the named worksheet exists" stage="Is Exist" />
+    </outputs>
+    <onsuccess>a9a189c1-d138-44a0-bab6-688ed8d0c52c</onsuccess>
+    <resource object="MS Excel VBO" action="Worksheet Exists" />
+  </stage>
+  <stage stageid="81ff4d34-b817-47b6-9200-ed8b6d9e5747" name="Is Exist" type="Data">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <display x="-270" y="45" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a9a189c1-d138-44a0-bab6-688ed8d0c52c" name="If Exist" type="Decision">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <display x="-135" y="45" />
+    <decision expression="[Is Exist] = &quot;True&quot;" />
+    <ontrue>fef6bd67-657e-4219-ab12-e3021f40fd75</ontrue>
+    <onfalse>122f25ea-37db-4ed2-908c-055b92a71e5a</onfalse>
+  </stage>
+  <stage stageid="fef6bd67-657e-4219-ab12-e3021f40fd75" name="Anchor3" type="Anchor">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="45" w="10" h="10" />
+    <onsuccess>bab186a5-4c7a-46ab-b14f-e07eb976da6c</onsuccess>
+  </stage>
+  <stage stageid="e231868c-e843-450e-8aec-e43d983e20d7" name="Collections::Add Row" type="Action">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="15" w="90" h="30" />
+    <inputs>
+      <input type="text" name="Collection Name" friendlyname="Collection Name" narrative="The name of the collection to act upon" expr="&quot;Activity Log&quot;" />
+    </inputs>
+    <onsuccess>4460daae-784e-4a59-96a7-a0101b7e6a1e</onsuccess>
+    <resource object="Blueprism.AutomateProcessCore.clsCollectionActions" action="Add Row" />
+  </stage>
+  <stage stageid="632c0778-d7bf-4633-b222-2da47af40d2a" name="Activity List" type="Collection">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <display x="195" y="-120" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="2fe71f66-e98a-435b-982f-b62810c1e200" name="Write to Excell sheet" type="SubSheet">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="390" />
+    <inputs>
+      <input type="collection" name="Activity List" friendlyname="Activity List" expr="[Activity Log]" />
+      <input type="text" name="Writte Posiion" friendlyname="Writte Posiion" expr="&quot;G1&quot;" />
+    </inputs>
+    <onsuccess>90b67873-ef9d-4907-8b9a-66dbd9862bf2</onsuccess>
+    <processid>752468ad-68ba-48bf-a68d-984ccf117ca8</processid>
+  </stage>
+  <stage stageid="b5394053-207c-4568-870a-afc8b74b8035" name="get Current Date" type="Calculation">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-30" y="-15" />
+    <onsuccess>5d071614-c1ab-4dae-a629-766add55b843</onsuccess>
+    <calculation expression="Replace(Today(), &quot;/&quot;, &quot;-&quot;)" stage="Current Date" />
+  </stage>
+  <stage stageid="9cf79391-c954-4bd1-b67c-c9797d796611" name="Current Date" type="Data">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <display x="-270" y="195" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="e978ea14-344e-42c7-948d-4f74458ccb08" name="Collections::Remove Row" type="Action">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="300" w="120" h="30" />
+    <inputs>
+      <input type="text" name="Collection Name" friendlyname="Collection Name" narrative="The name of the collection to act upon" expr="&quot;Activity Log&quot;" />
+    </inputs>
+    <onsuccess>5066869b-4875-49c9-b612-57fb8ec247a7</onsuccess>
+    <resource object="Blueprism.AutomateProcessCore.clsCollectionActions" action="Remove Row" />
+  </stage>
+  <stage stageid="084a5732-1abb-4660-bfc5-c2522c4083d1" name="Calculate Attendence" type="SubSheetInfo">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="-270" y="-135" w="150" h="90" />
+  </stage>
+  <stage stageid="a60ba720-cbed-4ba0-8e30-d13460dbca06" name="Start" type="Start">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="-75" y="-120" />
+    <inputs>
+      <input type="collection" name="Student Info" stage="Student Info" />
+      <input type="collection" name="Activity List" stage="Actiity List" />
+      <input type="number" name="Attendence Criteria" stage="Attendence Criteria in Mins" />
+    </inputs>
+    <onsuccess>4ba657ce-fbf4-4d86-ae2a-e45f39369dbc</onsuccess>
+  </stage>
+  <stage stageid="5633d696-bf7b-45e5-8fcb-84c9c21be371" name="End" type="End">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="270" y="675" />
+    <outputs>
+      <output type="collection" name="Attendence Sheet" stage="ATTENDENCE SHEET" />
+    </outputs>
+  </stage>
+  <stage stageid="b0e0b727-022d-4dba-9dcb-7260198260ce" name="Student Info" type="Collection">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="255" y="-120" w="90" h="60" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="4ba657ce-fbf4-4d86-ae2a-e45f39369dbc" name="Outer Loop" type="LoopStart">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-75" y="-60" />
+    <onsuccess>64e75adf-799a-47e8-8b92-772372d444c0</onsuccess>
+    <groupid>fa76b925-d99e-46a9-8919-081a1374c621</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>Student Info</loopdata>
+  </stage>
+  <stage stageid="1af1e404-84e8-409e-9c9f-3d000c2ebb4c" name="Outer Loop" type="LoopEnd">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="90" y="675" />
+    <onsuccess>81ad4baa-68e7-4f49-887d-a0e181544871</onsuccess>
+    <groupid>fa76b925-d99e-46a9-8919-081a1374c621</groupid>
+  </stage>
+  <stage stageid="c9a3371d-21a4-4641-9ad9-fd51bc5de739" name="Student Name" type="Data">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-300" y="15" w="90" h="30" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="64e75adf-799a-47e8-8b92-772372d444c0" name="Get Student Name" type="Calculation">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-75" y="0" />
+    <onsuccess>d12c8e8d-2166-4a18-9a08-94a483ac1214</onsuccess>
+    <calculation expression="[Student Info.Name]" stage="Student Name" />
+  </stage>
+  <stage stageid="d12c8e8d-2166-4a18-9a08-94a483ac1214" name="Inner Loop" type="LoopStart">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="0" />
+    <onsuccess>409477e5-4156-48bb-b93f-eb6fda97a429</onsuccess>
+    <groupid>babffbcc-80af-403d-91fd-3294905020fb</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>Actiity List</loopdata>
+  </stage>
+  <stage stageid="e7c1a9c1-9c9f-4807-951a-aed18d5eb915" name="Inner Loop" type="LoopEnd">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="135" y="255" />
+    <onsuccess>586ebc7b-5868-4721-bd4e-4f934ea99d4f</onsuccess>
+    <groupid>babffbcc-80af-403d-91fd-3294905020fb</groupid>
+  </stage>
+  <stage stageid="df528f98-5045-4b36-b135-ba5abcb80865" name="Actiity List" type="Collection">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="360" y="-120" w="90" h="60" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="409477e5-4156-48bb-b93f-eb6fda97a429" name="Check joined or leaved" type="ChoiceStart">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="15" y="60" />
+    <groupid>084a64d5-fa12-45e8-930f-899b904d997c</groupid>
+    <choices>
+      <choice expression="[Actiity List.Activity] = [Student Name]&amp;&quot; joined&quot;">
+        <name>Student Joined</name>
+        <distance>60</distance>
+        <ontrue>3825a281-fd64-4b88-8a89-442a6a38dc4f</ontrue>
+      </choice>
+      <choice expression="[Actiity List.Activity] = [Student Name]&amp;&quot; has left the meeting&quot;">
+        <name>Sudent Leaved</name>
+        <distance>180</distance>
+        <ontrue>4c722162-4bc6-478a-840d-b90ccc7ed0c0</ontrue>
+      </choice>
+    </choices>
+  </stage>
+  <stage stageid="cff648a5-41af-4aea-9043-aeb4b648f888" name="Otherwise" type="ChoiceEnd">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="345" y="60" />
+    <onsuccess>98f3d50b-8c7a-4a12-826e-d2159584af02</onsuccess>
+    <groupid>084a64d5-fa12-45e8-930f-899b904d997c</groupid>
+  </stage>
+  <stage stageid="3825a281-fd64-4b88-8a89-442a6a38dc4f" name="get joining time" type="Calculation">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="75" y="105" />
+    <onsuccess>7cea347b-62c2-47d1-89c1-91b7e84e81de</onsuccess>
+    <calculation expression="[Actiity List.TimeStamp]" stage="Joining Time" />
+  </stage>
+  <stage stageid="dc7f10e7-a011-4f22-8899-4b719eb1ab1a" name="Joining Time" type="Data">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="-300" y="75" w="90" h="30" />
+    <datatype>time</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="4c722162-4bc6-478a-840d-b90ccc7ed0c0" name="get leaving time" type="Calculation">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="195" y="105" />
+    <onsuccess>00d44962-0783-4041-8d51-51122bfbfd80</onsuccess>
+    <calculation expression="[Actiity List.TimeStamp]" stage="Leaving Time" />
+  </stage>
+  <stage stageid="c80dfd71-3fc7-4eee-859e-2b85c29d12ca" name="Leaving Time" type="Data">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="-300" y="120" w="90" h="30" />
+    <datatype>time</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="dbda3bae-50a0-4944-8978-6edf48dbf9ab" name="Counter Variables" type="Block">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-375" y="-30" w="150" h="195" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="16b0ce0d-8445-47cd-9e14-86faf0dc1c0d" name="Inputs" type="Block">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="180" y="-165" w="240" h="135" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="6bb1fd99-6706-4390-981e-b7feb9fa848d" name="Join Count" type="Data">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-300" y="240" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="7cea347b-62c2-47d1-89c1-91b7e84e81de" name="Join Count ++" type="Calculation">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="75" y="165" />
+    <onsuccess>e7c1a9c1-9c9f-4807-951a-aed18d5eb915</onsuccess>
+    <calculation expression="[Join Count]+1" stage="Join Count" />
+  </stage>
+  <stage stageid="6c3b3898-a24c-47db-9b82-260e1df63415" name="Criteria" type="Block">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-360" y="210" w="120" h="150" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="98f3d50b-8c7a-4a12-826e-d2159584af02" name="Anchor6" type="Anchor">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="345" y="255" w="10" h="10" />
+    <onsuccess>e7c1a9c1-9c9f-4807-951a-aed18d5eb915</onsuccess>
+  </stage>
+  <stage stageid="93104892-3240-4771-9f45-eacdcd51e326" name="Reset Values" type="MultipleCalculation">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="90" y="600" w="90" h="60" />
+    <onsuccess>1af1e404-84e8-409e-9c9f-3d000c2ebb4c</onsuccess>
+    <steps>
+      <calculation expression="0" stage="Join Count" />
+      <calculation expression="0" stage="Time Diff" />
+      <calculation expression="&quot;&quot;" stage="Attendence" />
+      <calculation expression="True" stage="Not Leaved" />
+    </steps>
+  </stage>
+  <stage stageid="00d44962-0783-4041-8d51-51122bfbfd80" name="Calculate Time Diff" type="Calculation">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="195" y="150" />
+    <onsuccess>a19c57df-c76c-4068-9dae-5d3aea7c5691</onsuccess>
+    <calculation expression="[Time Diff] + DateDiff(6, ToDateTime(Today()&amp;&quot; &quot;&amp;[Joining Time]), ToDateTime(Today()&amp;&quot; &quot;&amp;[Leaving Time]))" stage="Time Diff" />
+  </stage>
+  <stage stageid="1105521c-6ae6-4486-9eb3-5a5682212847" name="Time Diff" type="Data">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="-300" y="285" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="632d6a40-c2d4-4f2d-84a7-c38d57a69e12" name="Attendence" type="Decision">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="195" y="375" />
+    <decision expression="[Time Diff] &gt;= [Attendence Criteria in Mins] AND [Join Count] &gt; 0" />
+    <ontrue>6786b7b5-1530-4156-9d2e-e2da7b81f4ca</ontrue>
+    <onfalse>f45649c6-5f13-41ee-9efe-2a304a5e175c</onfalse>
+  </stage>
+  <stage stageid="6786b7b5-1530-4156-9d2e-e2da7b81f4ca" name="Present" type="Calculation">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="90" y="375" />
+    <onsuccess>bdd24f4a-d677-4897-b457-349454a6eabc</onsuccess>
+    <calculation expression="&quot;PRESENT&quot;" stage="Attendence" />
+  </stage>
+  <stage stageid="fceca05a-854a-43f9-a603-c4de918c85be" name="Attendence" type="Data">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="-300" y="330" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f45649c6-5f13-41ee-9efe-2a304a5e175c" name="Absent" type="Calculation">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="300" y="375" />
+    <onsuccess>408cae1d-c5cd-486d-b298-6b0836525f7c</onsuccess>
+    <calculation expression="&quot;ABSENT&quot;" stage="Attendence" />
+  </stage>
+  <stage stageid="614b521b-776d-4740-9e90-87a1948a98e3" name="ATTENDENCE SHEET" type="Collection">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="-300" y="450" w="90" h="60" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="Name" type="text" />
+      <field name="Attendence" type="text" />
+      <field name="Join Count" type="number" />
+      <field name="TimeSpan" type="number" />
+    </collectioninfo>
+    <initialvalue>
+      <row>
+        <field name="Name" type="text" value="" />
+        <field name="Attendence" type="text" value="" />
+        <field name="Join Count" type="number" value="" />
+        <field name="TimeSpan" type="number" value="" />
+      </row>
+    </initialvalue>
+  </stage>
+  <stage stageid="9c9f9eb3-1e30-4fce-a923-ae82c962a128" name="Inner Loop" type="Block">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-360" y="45" w="120" h="105" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="33b88374-0a6e-4d26-9ba1-b5e77869842b" name="Output" type="Block">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="-360" y="405" w="120" h="90" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="bfa678e7-3f75-4ae7-b4b3-6e25628b0150" name="Write attendence" type="MultipleCalculation">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="195" y="510" w="90" h="60" />
+    <onsuccess>0bd726b1-f725-4fca-9535-af16da64f2f4</onsuccess>
+    <steps>
+      <calculation expression="[Student Name]" stage="ATTENDENCE SHEET.Name" />
+      <calculation expression="[Attendence]" stage="ATTENDENCE SHEET.Attendence" />
+      <calculation expression="[Join Count]" stage="ATTENDENCE SHEET.Join Count" />
+      <calculation expression="[Time Diff]" stage="ATTENDENCE SHEET.TimeSpan" />
+    </steps>
+  </stage>
+  <stage stageid="51ee9e02-0d97-41ea-b2c7-a1e1bdf3dc72" name="Student Name Exist" type="Decision">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="195" y="435" />
+    <decision expression="[Student Name]&lt;&gt;&quot;&quot;" />
+    <ontrue>bfa678e7-3f75-4ae7-b4b3-6e25628b0150</ontrue>
+  </stage>
+  <stage stageid="bdd24f4a-d677-4897-b457-349454a6eabc" name="Anchor7" type="Anchor">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="90" y="435" w="10" h="10" />
+    <onsuccess>51ee9e02-0d97-41ea-b2c7-a1e1bdf3dc72</onsuccess>
+  </stage>
+  <stage stageid="408cae1d-c5cd-486d-b298-6b0836525f7c" name="Anchor8" type="Anchor">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="300" y="435" w="10" h="10" />
+    <onsuccess>51ee9e02-0d97-41ea-b2c7-a1e1bdf3dc72</onsuccess>
+  </stage>
+  <stage stageid="3238d7fb-77fc-4976-b7db-f9dbe8a637da" name="Attendence Criteria in Mins" type="Data">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="300" y="-60" w="150" h="30" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="cf858637-5a6f-42e8-9161-1df362951307" name="Calculate Attendence" type="SubSheet">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="330" />
+    <inputs>
+      <input type="collection" name="Student Info" friendlyname="Student Info" expr="[Student Info]" />
+      <input type="collection" name="Activity List" friendlyname="Activity List" expr="[Student Activity]" />
+      <input type="number" name="Attendence Criteria" friendlyname="Attendence Criteria" expr="DateDiff(6, [Start Time], [End Time]) - Round(DateDiff(6, [Start Time], [End Time])*0.3, 0)" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Attendence Sheet" friendlyname="Attendence Sheet" stage="Attendence" />
+    </outputs>
+    <onsuccess>2fe71f66-e98a-435b-982f-b62810c1e200</onsuccess>
+    <processid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</processid>
+  </stage>
+  <stage stageid="b04513fb-303f-4099-97fa-d79abdd9a98b" name="Attendence" type="Collection">
+    <display x="105" y="330" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="5650d1cb-6ca0-4963-b552-f91aacddfe66" name="Write Position" type="Data">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <display x="270" y="-120" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="9b387b1b-db27-4797-ad3a-dc3a09d14cf0" name="Block1" type="Block">
+    <subsheetid>752468ad-68ba-48bf-a68d-984ccf117ca8</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="150" y="-150" w="165" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="90b67873-ef9d-4907-8b9a-66dbd9862bf2" name="Write to Excell sheet" type="SubSheet">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="450" />
+    <inputs>
+      <input type="collection" name="Activity List" friendlyname="Activity List" expr="[Attendence]" />
+      <input type="text" name="Writte Posiion" friendlyname="Writte Posiion" expr="&quot;A1&quot;" />
+    </inputs>
+    <onsuccess>09c3b046-362f-468e-ab2d-8c073ac39861</onsuccess>
+    <processid>752468ad-68ba-48bf-a68d-984ccf117ca8</processid>
+  </stage>
+  <stage stageid="0bd726b1-f725-4fca-9535-af16da64f2f4" name="Collections::Add Row" type="Action">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="90" y="510" />
+    <inputs>
+      <input type="text" name="Collection Name" friendlyname="Collection Name" narrative="The name of the collection to act upon" expr="&quot;ATTENDENCE SHEET&quot;" />
+    </inputs>
+    <onsuccess>93104892-3240-4771-9f45-eacdcd51e326</onsuccess>
+    <resource object="Blueprism.AutomateProcessCore.clsCollectionActions" action="Add Row" />
+  </stage>
+  <stage stageid="81ad4baa-68e7-4f49-887d-a0e181544871" name="Collections::Remove Row" type="Action">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="180" y="675" />
+    <inputs>
+      <input type="text" name="Collection Name" friendlyname="Collection Name" narrative="The name of the collection to act upon" expr="&quot;ATTENDENCE SHEET&quot;" />
+    </inputs>
+    <onsuccess>5633d696-bf7b-45e5-8fcb-84c9c21be371</onsuccess>
+    <resource object="Blueprism.AutomateProcessCore.clsCollectionActions" action="Remove Row" />
+  </stage>
+  <stage stageid="919d042f-573e-4aa1-8498-322c4cc36b92" name="Block2" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-30" y="150" w="180" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="86972b18-66a7-4b34-9633-bce1a6ffebbc" name="Block3" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-30" y="-90" w="195" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="276e3ad8-bf0d-4a7f-947e-d7ccd23183ce" name="Block4" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-30" y="225" w="255" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="9070afff-f492-4828-843c-97b29f2d83d9" name="Block5" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-30" y="300" w="180" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="fd5f9d39-c9d9-4759-acd3-89b70d957697" name="Calculate Start Time" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="105" />
+    <onsuccess>f2a1973f-1099-4780-897d-9e33ee662cd3</onsuccess>
+    <calculation expression="Now()" stage="Start Time" />
+  </stage>
+  <stage stageid="ce5f24ef-4273-4ab1-8361-1c60f388ebbf" name="Start Time" type="Data">
+    <display x="-60" y="105" />
+    <datatype>datetime</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="13a8f32e-74a5-4e64-abbe-6d97790e347d" name="Block6" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-105" y="75" w="165" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="1e64f268-54bb-4a8a-a250-548e68795c7b" name="Calculate End Time" type="Calculation">
+    <loginhibit onsuccess="true" />
+    <display x="-135" y="180" />
+    <onsuccess>bd4c6ca2-35bf-4b15-ad14-40d6143472b2</onsuccess>
+    <calculation expression="Now()" stage="End Time" />
+  </stage>
+  <stage stageid="bd9f0e5d-a2da-4a68-9e85-3dd4d4f3c5df" name="End Time" type="Data">
+    <display x="-210" y="180" />
+    <datatype>datetime</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="bd4c6ca2-35bf-4b15-ad14-40d6143472b2" name="Anchor4" type="Anchor">
+    <loginhibit onsuccess="true" />
+    <display x="-135" y="255" w="10" h="10" />
+    <onsuccess>efe84830-8b82-482d-beba-147ed2e2c270</onsuccess>
+  </stage>
+  <stage stageid="9d9d64f9-81b8-4c68-b3a5-45de92d5e994" name="Block7" type="Block">
+    <loginhibit onsuccess="true" />
+    <display x="-255" y="150" w="165" h="60" />
+    <font family="Segoe UI" size="10" style="Regular" color="7FB2E5" />
+  </stage>
+  <stage stageid="8d0daca9-b83f-426e-99fa-0ceb1f36d633" name="Not Leaved" type="Data">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="465" y="165" />
+    <datatype>flag</datatype>
+    <initialvalue>True</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a19c57df-c76c-4068-9dae-5d3aea7c5691" name="Leaved" type="Calculation">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="195" y="195" />
+    <onsuccess>e7c1a9c1-9c9f-4807-951a-aed18d5eb915</onsuccess>
+    <calculation expression="False" stage="Not Leaved" />
+  </stage>
+  <stage stageid="586ebc7b-5868-4721-bd4e-4f934ea99d4f" name="Not Leaved" type="Decision">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <display x="135" y="315" />
+    <decision expression="[Not Leaved]= True AND [Join Count]&gt;0" />
+    <ontrue>2717e9c2-e733-480e-a7c7-5e24071d767e</ontrue>
+    <onfalse>632d6a40-c2d4-4f2d-84a7-c38d57a69e12</onfalse>
+  </stage>
+  <stage stageid="2717e9c2-e733-480e-a7c7-5e24071d767e" name="Give full Class Time" type="Calculation">
+    <subsheetid>4f4bd633-f908-4ff6-bfb1-a6729ebbcd6a</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="255" y="315" />
+    <onsuccess>632d6a40-c2d4-4f2d-84a7-c38d57a69e12</onsuccess>
+    <calculation expression="[Attendence Criteria in Mins] + Round([Attendence Criteria in Mins]*0.2, 0)" stage="Time Diff" />
+  </stage>
+  <stage stageid="5066869b-4875-49c9-b612-57fb8ec247a7" name="Count--" type="Calculation">
+    <subsheetid>519d466d-d580-461a-bfbd-5356af46de39</subsheetid>
+    <loginhibit onsuccess="true" />
+    <display x="15" y="360" />
+    <onsuccess>1a460c64-c8ee-4cd8-81f5-b1e96973dfca</onsuccess>
+    <calculation expression="[Count]-1" stage="Count" />
+  </stage>
+</process>
